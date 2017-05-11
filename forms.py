@@ -19,6 +19,7 @@ class LoginForm(FlaskForm):
         ]
     )
 
+
 class EntryForm(FlaskForm):
 
     title = StringField(

@@ -11,8 +11,6 @@ from slugify import slugify
 import forms
 import models
 
-
-
 DEBUG = True
 PORT = 5000
 HOST = '127.0.0.1'
@@ -24,6 +22,7 @@ app.secret_key = "All them lil dudes can't stand beside me"
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+
 
 @login_manager.user_loader
 def load_user(userid):
@@ -59,13 +58,15 @@ def index():
         # Creating the links for the list of entries with the tag
         tags_html = ""
         for tag in tags:
-            #Encoding the url for more safe search
+            # Encoding the url for more safe search
             url_encoded_tag = quote(tag.tag.encode('utf-8'))
-            tags_html += "<a href='/entries/tag/{}'>{}</a> ".format(url_encoded_tag, tag.tag)
+            tags_html += ("<a href='/entries/tag/{}'>{}</a> "
+                          .format(url_encoded_tag, tag.tag))
 
         entry.tags = tags_html
-    
+
     return render_template('index.html', entries=entries)
+
 
 @app.route('/login', methods=('GET', 'POST'))
 def login():
@@ -108,7 +109,7 @@ def entry_add():
             'time_spent': form.time_spent.data,
             'what_i_learned': form.what_i_learned.data,
             'sources_to_remember': form.sources_to_remember.data,
-            'tags' : form.tags.data
+            'tags': form.tags.data
         }
 
         models.Entry.create_entry(**entry_data)
@@ -117,6 +118,7 @@ def entry_add():
         return redirect(url_for('index'))
 
     return render_template('new.html', form=form)
+
 
 @app.route('/entries/entries/<slug>')
 def details(slug):
@@ -129,9 +131,10 @@ def details(slug):
         # Creating the links for the list of entries with the tag
         tags_html = ""
         for tag in tags:
-            #Encoding the url for more safe search
+            # Encoding the url for more safe search
             url_encoded_tag = quote(tag.tag.encode('utf-8'))
-            tags_html += "<a href='/entries/tag/{}'>{}</a> ".format(url_encoded_tag, tag.tag)
+            tags_html += ("<a href='/entries/tag/{}'>{}</a> "
+                          .format(url_encoded_tag, tag.tag))
 
         entry.tags = tags_html
 
@@ -139,6 +142,7 @@ def details(slug):
         abort(404)
     else:
         return render_template('detail.html', entry=entry)
+
 
 @app.route('/entries/edit/<slug>', methods=('GET', 'POST'))
 def edit(slug):
@@ -150,10 +154,10 @@ def edit(slug):
     else:
 
         tags = models.EntryTag.get_entry_tags(entry.id)
-        tags = "" if tags.count() == 0 else ", ".join([ tag.tag for tag in tags])
+        tags = ", ".join([tag.tag for tag in tags]) if tags.count() else ""
 
         data = {
-            'date' : entry.date
+            'date': entry.date
         }
 
         entry.date = entry.date.strftime('%d-%m-%Y')
@@ -173,23 +177,25 @@ def edit(slug):
                 tag, created = models.Tag.get_or_create(tag=tag.strip())
                 models.EntryTag.get_or_create(id_entry=entry.id, id_tag=tag.id)
 
-            flash('Nice','success')
+            flash('Nice', 'success')
             return redirect(url_for('details', slug=entry.slug))
 
         return render_template('edit.html', form=form)
+
 
 @app.route('/entries/delete/<slug>')
 def delete(slug):
     """Deletes an entry"""
 
     try:
-        entry = models.Entry.get(models.Entry.slug==slug)
+        entry = models.Entry.get(models.Entry.slug == slug)
     except models.DoesNotExist:
         abort(404)
     else:
         entry.delete_instance()
         flash('Nice, entry deleted', 'success')
         return redirect(url_for('index'))
+
 
 @app.route('/entries/tag/<tag>')
 def search_by_tag(tag):
@@ -202,11 +208,10 @@ def search_by_tag(tag):
         .select()
         .join(models.EntryTag)
         .join(models.Tag)
-        .where(models.Tag.tag==tag)
+        .where(models.Tag.tag == tag)
     )
 
     return render_template('index.html', entries=entries)
-
 
 
 if __name__ == '__main__':
@@ -215,14 +220,12 @@ if __name__ == '__main__':
 
     # Creating a user for the login
     # It will be only created if it doesn't exists
-    try: 
+    try:
         models.User.create_user(
-            email= 'techdegreestudent@treehouse.com',
+            email='techdegreestudent@treehouse.com',
             password='lemon pie'
         )
     except ValueError:
         pass
 
     app.run(debug=DEBUG, host=HOST, port=PORT)
-
-
