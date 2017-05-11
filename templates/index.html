@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="entry-list">
+
+        {% if entries.count() %}
+            {% for entry in entries %}
+                <article>
+                    <h2><a href="/entries/entries/{{ entry.slug }}"> {{ entry.title }}</a></h2>
+                    <time datetime="{{ entry.date }}">{{ entry.date.strftime('%B %d,%Y') }}</time>
+                    <h4> {{ entry.tags|safe }}</h4>
+                </article>
+            {% endfor %}
+        {% else %}
+            <article>
+                    <h2>Ops! No articles yet.</h2>
+                    <a href="{{ url_for('index') }} ">Return to Home</a>
+            </article>
+        {% endif %}
+
+    </div>
+{% endblock %}

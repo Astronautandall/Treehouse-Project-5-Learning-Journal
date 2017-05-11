@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="entry-list single">
+        <article>
+            <h1>{{ entry.title }}</h1>
+            <time datetime="{ entry.date }">{{ entry.date.strftime('%B %d,%Y') }}</time>
+            <div class="entry">
+                <h3>Time Spent: </h3>
+                <p>{{ entry.time_spent }}</p>
+            </div>
+            <div class="entry">
+                <h3>What I Learned:</h3>
+                <p>{{ entry. what_i_learned }}</p>
+            </div>
+            <div class="entry">
+                <h3>Resources to Remember:</h3>
+                <p>{{ entry.sources_to_remember }}</p>
+            </div>
+            <div class="entry">
+                <h3>Tags:</h3>
+                <a href=""></a>
+                <p> {{ entry.tags|safe }} </p>
+            </div>
+        </article>
+    </div>
+{% endblock %}

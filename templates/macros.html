@@ -1,0 +1,13 @@
+{% macro render_field(field) %}
+	
+	<div>
+		{% if field.errors %}
+			{% for error in field.errors %}
+				<div> {{ error }} </div>
+			{% endfor %}
+		{% endif %}
+		<label>{% if field.label.text != 'CSRF Token' %} {{ field.label.text }} {% endif %}</label>
+		{{field(placeholder=field.label.text, value=field.data if field.data else '')}}
+	</div>
+
+{% endmacro %}
