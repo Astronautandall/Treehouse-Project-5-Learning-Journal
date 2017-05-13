@@ -1,15 +1,42 @@
 {% from 'macros.html' import render_field %}
 
 {% block content %}
-	<form method='POST' action="" class="form">
 
-		{{ form.hidden_tag() }}
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<div class="container">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<div class="panel panel-login">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-xs-6">
+							<h2>Login</h2>
+						</div>
+					</div>
+					<hr>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-lg-12">
+							<form method='POST' action="" class="form">
 
-		{% for field in form %}
-			{{ render_field(field)}}
-		{% endfor %}	
+								{{ form.hidden_tag() }}
 
-		<button type='submit' id='submit'>Sign in!</button>
+								{% for field in form %}
+									{{ render_field(field)}}
+								{% endfor %}	
 
-	</form>
+								<button class='btn btn-success' type='submit' id='submit'>Sign in!</button>
+
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+	
 {% endblock %}

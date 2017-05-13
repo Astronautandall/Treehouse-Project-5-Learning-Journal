@@ -180,7 +180,7 @@ def edit(slug):
             flash('Nice', 'success')
             return redirect(url_for('details', slug=entry.slug))
 
-        return render_template('edit.html', form=form)
+        return render_template('edit.html', form=form, entry=entry)
 
 
 @app.route('/entries/delete/<slug>')

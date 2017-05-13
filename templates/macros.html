@@ -7,7 +7,7 @@
 			{% endfor %}
 		{% endif %}
 		<label>{% if field.label.text != 'CSRF Token' %} {{ field.label.text }} {% endif %}</label>
-		{{field(placeholder=field.label.text, value=field.data if field.data else '')}}
+		{{field(placeholder=field.label.text, value=field.data if field.data else '', class='form-control')}}
 	</div>
 
 {% endmacro %}

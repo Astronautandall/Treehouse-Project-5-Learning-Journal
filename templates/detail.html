@@ -19,8 +19,12 @@
             </div>
             <div class="entry">
                 <h3>Tags:</h3>
-                <a href=""></a>
                 <p> {{ entry.tags|safe }} </p>
+            </div>
+            <div class="entry">
+                <h3>Options:</h3>
+                <p><a href="/entries/edit/{{ entry.slug }}">Edit</a>
+                <a href="/entries/delete/{{ entry.slug }}">Delete</a></p>
             </div>
         </article>
     </div>
